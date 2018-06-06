@@ -1,0 +1,12 @@
+CREATE PROCEDURE GetUserShelf
+
+@userId VARCHAR(450)
+
+AS
+
+SELECT b.Title, u.UserName, a.FirstName, a.LastName, g.Name as Genre FROM Books as b
+JOIN Users_Books as ub on ub.Book_Id = b.Id
+JOIN AspNetUsers as u on ub.User_Id = u.Id
+JOIN Authors as a on a.Id = b.Author
+JOIN Genres as g on g.Id = b.Genre
+WHERE u.Id = @userId

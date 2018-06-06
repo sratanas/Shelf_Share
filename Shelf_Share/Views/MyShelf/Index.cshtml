@@ -1,0 +1,17 @@
+﻿@model Shelf_Share.Models.MyShelfViewModels.IndexMyShelfViewModel
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>My Shelf</h2>
+
+<table>
+    @foreach (var book in Model.MyShelfBooks)
+    {
+        <tr>
+            <td>@book.Title</td>
+        </tr>
+    }
+</table>
+
+
