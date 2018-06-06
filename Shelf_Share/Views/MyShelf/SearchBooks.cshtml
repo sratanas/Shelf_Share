@@ -1,0 +1,23 @@
+﻿
+@{
+    ViewData["Title"] = "SearchBooks";
+}
+
+<h2>SearchBooks</h2>
+
+<form method="get" action="@Url.Action("AuthorBookSearchResults", "MyShelf")">
+    <p class="card-text">
+
+        <div>
+            Search by:
+            Author   @Html.RadioButton("SearchType", "Author")
+            Title @Html.RadioButton("SearchType", "Title")
+        </div>
+    </p>
+
+
+    <input type="text" value="" name="SearchInput" class="form-control" id="searchBox" aria-describedby="searchBox" placeholder="Enter Author or Title">
+    <br />
+    <button type="submit" class="btn btn-primary">Search</button>
+
+</form>

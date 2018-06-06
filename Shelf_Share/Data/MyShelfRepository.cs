@@ -38,8 +38,7 @@ namespace Shelf_Share.Data
                         //book.Id = Int32.Parse(reader["Id"].ToString());
                         book.Title = reader["Title"].ToString();
                        
-                        author.FirstName = reader["FirstName"].ToString();
-                        author.LastName = reader["LastName"].ToString();
+                        author.Name = reader["Name"].ToString();
 
                         genre.Name = reader["Name"].ToString();
 
@@ -54,6 +53,54 @@ namespace Shelf_Share.Data
 
 
                 return userShelf;
+            }
+        }
+
+        public List<Book> GetBooksByAuthor(string authorName)
+        {
+            using (SqlConnection connection = SqlConnect.GetSqlConnection())
+            {
+                List<Book> authorBookList = new List<Book>();
+
+
+                string query = @"GetBooksByAuthor";
+
+                SqlCommand command = new SqlCommand(query, connection);
+                command.CommandType = System.Data.CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@AuthorName", authorName);
+
+                command.ExecuteNonQuery();
+                SqlDataReader reader = command.ExecuteReader();
+
+                if (reader.HasRows)
+                {
+
+                    while (reader.Read())
+                    {
+                        var book = new Book();
+                        var author = new Author();
+                        var genre = new Genre();
+
+                        book.Id = Int32.Parse(reader["Id"].ToString());
+                        book.Title = reader["Title"].ToString();
+
+
+                        author.Name = reader["Name"].ToString();
+                        
+
+                        genre.Id = Int32.Parse(reader["Id"].ToString());
+                        genre.Name = reader["Name"].ToString();
+
+                        book.Genre = genre;
+                        book.Author = author;
+
+                        authorBookList.Add(book);
+                    }
+
+                }
+
+
+                return authorBookList;
             }
         }
     }

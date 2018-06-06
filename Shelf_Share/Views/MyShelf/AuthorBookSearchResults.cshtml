@@ -1,0 +1,15 @@
+﻿@model Shelf_Share.Models.MyShelfViewModels.AuthorBookSearchResultsViewModel
+@{
+    ViewData["Title"] = "AuthorBookSearchResults";
+}
+
+<h2>AuthorBookSearchResults</h2>
+
+<table>
+    @foreach (var book in Model.AuthorBookList)
+    {
+        <tr>
+            <td>@book.Title</td>
+        </tr>
+    }
+</table>

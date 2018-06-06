@@ -16,6 +16,8 @@ namespace Shelf_Share.Services
 
         public IEnumerable<Book> GetUserShelf(string userId) => _myShelfRepository.GetUserShelf(userId);
 
-        public ApplicationUser CurrentUser { get; set; }
+        public IEnumerable<Book> GetBooksByAuthor(string authorName) => _myShelfRepository.GetBooksByAuthor(authorName);
+       
+
     }
 }

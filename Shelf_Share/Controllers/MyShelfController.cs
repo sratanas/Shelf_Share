@@ -23,6 +23,8 @@ namespace Shelf_Share.Controllers
             _signInManager = signInManager;
            // _appUser = appUser;
         }
+
+
         public IActionResult Index(string userName)
         {
 
@@ -33,6 +35,35 @@ namespace Shelf_Share.Controllers
             
 
             return View(model);
+        }
+
+
+        public IActionResult SearchBooks()
+        {
+            return View();
+        }
+
+        public IActionResult AuthorBookSearchResults(string searchType, string searchInput)
+        {
+            if (searchType == "Author")
+            {
+                var model = new AuthorBookSearchResultsViewModel();
+              
+                model.AuthorBookList = _myShelfDataService.GetBooksByAuthor(searchInput);
+                return View("AuthorBookSearchResults", model);
+            }
+            //else if (searchType == "Title")
+            //{
+            //    var model = new TitleBookSearchResultsViewModel();
+            //    model.BooksByTitle = _bookDataService.SearchTitles(searchInput);
+
+            //    return View("TitleResult", model);
+            //}
+            else
+            {
+                return Content("No results found");
+            }
+
         }
     }
 }

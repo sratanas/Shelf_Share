@@ -3,6 +3,7 @@
     padding-bottom: 20px;
 }
 
+
 /* Wrapping element */
 /* Set some basic padding to keep content from hitting the edges */
 .body-content {
@@ -33,3 +34,19 @@
         display: none;
     }
 }
+
+#siteHeader {
+    padding: 10px, 10px, 10px, 40px;
+    margin-bottom: 50px;
+    background-color: white;
+    text-align: center;
+    color: green;
+    font-family: 'Fredericka the Great', cursive;
+}
+
+#siteHeader h1 {
+    font-size: 60px;
+    letter-spacing: 10px;
+        
+    }
+

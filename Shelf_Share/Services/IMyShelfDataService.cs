@@ -6,8 +6,7 @@ namespace Shelf_Share.Services
     public interface IMyShelfDataService
     {
         IEnumerable<Book> GetUserShelf(string userId);
-
-        ApplicationUser CurrentUser { get; set; }
+        IEnumerable<Book> GetBooksByAuthor(string authorName);
 
     }
 }
