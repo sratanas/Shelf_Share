@@ -17,7 +17,12 @@ namespace Shelf_Share.Services
         public IEnumerable<Book> GetUserShelf(string userId) => _myShelfRepository.GetUserShelf(userId);
 
         public IEnumerable<Book> GetBooksByAuthor(string authorName) => _myShelfRepository.GetBooksByAuthor(authorName);
-       
+
+        public IEnumerable<Book> GetBooksByTitle(string title) => _myShelfRepository.GetBooksByTitle(title);
+
+        public Book GetBookById(int id) => _myShelfRepository.GetBookById(id);
+
+        public void AddBookToShelfShare(Book book) => _myShelfRepository.AddBookToShelfShare(book);
 
     }
 }

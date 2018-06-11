@@ -1,0 +1,87 @@
+﻿@model Shelf_Share.Models.MyShelfViewModels.TitleBookSearchResultsViewModel
+
+@{
+    ViewData["Title"] = "TitleBookSearchNOResults";
+}
+
+
+
+<h2>Search Books</h2>
+<div class="row">
+    <div class="col-md-4">
+        <form method="get" action="@Url.Action("AuthorBookSearchResults", "MyShelf")">
+
+            <div>
+                Search by:<br />
+                Author   @Html.RadioButton("SearchType", "Author")
+                Title @Html.RadioButton("SearchType", "Title")
+            </div>
+
+            <br />
+
+            <input type="text" value="" name="SearchInput" class="form-control" id="searchBox" aria-describedby="searchBox" placeholder="Enter Author or Title">
+            <br />
+            <button type="submit" class="btn btn-primary">Search</button>
+
+        </form>
+    </div>
+
+
+    <div class="col-md-6">
+        <p>This book is not in Shelf Share, would you like to add it?</p>
+
+        <form method="post" asp-controller="MyShelf" asp-action="AddBook">
+            @*<input asp-for="@Model.GoodreadsList" type="hidden" />*@
+            @foreach (var book in Model.GoodreadsList.Result.Books)
+            {
+                <input asp-for="@book.Title" type="hidden" />
+                <input asp-for="@book.ISBN" type="hidden" />
+                <input asp-for="@book.Authors" type="hidden" />
+
+
+                @foreach (var author in book.Authors)
+                {
+                  
+
+                    @foreach (var a in author.Author)
+                        {
+
+                            <input asp-for="@book.Author.AuthorName" type="hidden" value="@a.Name" />
+
+
+                        }
+                }
+
+            }
+
+            <button type="submit" name="save" value="save">Add Book</button>
+        </form>
+
+
+        <table class="table-condensed">
+            @foreach (var book in Model.GoodreadsList.Result.Books)
+            {
+
+                <tr>
+                    <td>
+
+                        <img src="@book.Image_url" /><br /><br /><strong>@book.Title</strong><br />
+                        by
+                        @foreach (var author in book.Authors)
+                        {
+                            @foreach (var a in author.Author)
+                            {
+                                @a.Name
+                            }
+                        }
+
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>@Html.Raw(@book.Description)</td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>

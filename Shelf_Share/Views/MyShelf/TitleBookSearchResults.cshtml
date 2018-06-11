@@ -1,7 +1,38 @@
-﻿@model  Shelf_Share.Models.MyShelfViewModels.TitleBookSearchResultsViewModel 
+﻿@model Shelf_Share.Models.MyShelfViewModels.TitleBookSearchResultsViewModel
 @{
     ViewData["Title"] = "TitleBookSearchResults";
 }
 
-<h2>TitleBookSearchResults</h2>
+<h2>Title Search Results</h2>
+<div class="row">
+    <div class="col-md-4">
+        <form method="get" action="@Url.Action("AuthorBookSearchResults", "MyShelf")">
 
+            <div>
+                Search by:<br />
+                Author   @Html.RadioButton("SearchType", "Author")
+                Title @Html.RadioButton("SearchType", "Title")
+            </div>
+
+            <br />
+
+            <input type="text" value="" name="SearchInput" class="form-control" id="searchBox" aria-describedby="searchBox" placeholder="Enter Author or Title">
+            <br />
+            <button type="submit" class="btn btn-primary">Search</button>
+
+        </form>
+    </div>
+    <div class="col-md-6">
+        <table class="table-condensed">
+            @foreach (var book in Model.BooksByTitle)
+        {
+            <tr>
+                <td><strong>@book.Title</strong><br /> by @book.Author.AuthorName</td>
+                <td> <a asp-area="" asp-controller="MyShelf" asp-action="BookDetails/@book.Id" title="BookDetails">Details</a></td>
+            </tr>
+    }
+        </table>
+
+
+    </div>
+</div>

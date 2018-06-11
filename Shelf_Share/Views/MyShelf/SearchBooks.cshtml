@@ -3,21 +3,26 @@
     ViewData["Title"] = "SearchBooks";
 }
 
-<h2>SearchBooks</h2>
+<h2>Search Books</h2>
 
-<form method="get" action="@Url.Action("AuthorBookSearchResults", "MyShelf")">
-    <p class="card-text">
+<div class="row">
+    <div class="col-md-4">
+        <form method="get" action="@Url.Action("AuthorBookSearchResults", "MyShelf")">
 
-        <div>
-            Search by:
-            Author   @Html.RadioButton("SearchType", "Author")
-            Title @Html.RadioButton("SearchType", "Title")
-        </div>
-    </p>
+            <div>
+                Search by:<br />
+                Author   @Html.RadioButton("SearchType", "Author")
+                Title @Html.RadioButton("SearchType", "Title")
+            </div>
+          
+                <br />
+
+            <input type="text" value="" name="SearchInput" class="form-control" id="searchBox" aria-describedby="searchBox" placeholder="Enter Author or Title">
+            <br />
+            <button type="submit" class="btn btn-primary">Search</button>
+
+        </form>
+    </div>
+</div>
 
 
-    <input type="text" value="" name="SearchInput" class="form-control" id="searchBox" aria-describedby="searchBox" placeholder="Enter Author or Title">
-    <br />
-    <button type="submit" class="btn btn-primary">Search</button>
-
-</form>

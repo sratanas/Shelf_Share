@@ -18,6 +18,7 @@ namespace Shelf_Share
         }
 
         public IConfiguration Configuration { get; }
+        private string _goodreadsApiKey = null;
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -33,6 +34,10 @@ namespace Shelf_Share
             services.AddTransient<IEmailSender, EmailSender>();
             services.AddSingleton<IMyShelfDataService, MyShelfDataService>();
             services.AddSingleton<IMyShelfRepository, MyShelfRepository>();
+            services.AddSingleton<IGoodreadsRepository, GoodreadsRepository>();
+            services.AddSingleton<IGoodreadsService, GoodreadsService>();
+
+            _goodreadsApiKey = Configuration["GoodreadsApiKey"];
 
             services.AddMvc();
         }
@@ -45,6 +50,8 @@ namespace Shelf_Share
                 app.UseBrowserLink();
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
+                
+               
             }
             else
             {
@@ -52,9 +59,9 @@ namespace Shelf_Share
             }
 
             app.UseStaticFiles();
-
+            
             app.UseAuthentication();
-
+            
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

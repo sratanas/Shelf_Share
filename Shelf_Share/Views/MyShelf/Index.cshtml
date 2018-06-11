@@ -5,12 +5,16 @@
 
 <h2>My Shelf</h2>
 
-<table>
+<table class="table-condensed">
+
+
     @foreach (var book in Model.MyShelfBooks)
     {
-        <tr>
-            <td>@book.Title</td>
-        </tr>
+    <tr>
+        <td><strong>@book.Title</strong> 
+        <br />by @book.Author.AuthorName</td>
+        <td> <a asp-area="" asp-controller="MyShelf" asp-action="BookDetails/@book.Id" title="BookDetails">   Details</a></td>
+    </tr>
     }
 </table>
 

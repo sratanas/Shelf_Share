@@ -3,13 +3,40 @@
     ViewData["Title"] = "AuthorBookSearchResults";
 }
 
-<h2>AuthorBookSearchResults</h2>
+<h2>Search Books</h2>
 
-<table>
-    @foreach (var book in Model.AuthorBookList)
-    {
-        <tr>
-            <td>@book.Title</td>
-        </tr>
-    }
-</table>
+<div class="row">
+    <div class="col-md-4">
+        <form method="get" action="@Url.Action("AuthorBookSearchResults", "MyShelf")">
+
+            <div>
+                Search by:<br />
+                Author   @Html.RadioButton("SearchType", "Author")
+                Title @Html.RadioButton("SearchType", "Title")
+            </div>
+
+            <br />
+
+            <input type="text" value="" name="SearchInput" class="form-control" id="searchBox" aria-describedby="searchBox" placeholder="Enter Author or Title">
+            <br />
+            <button type="submit" class="btn btn-primary">Search</button>
+
+        </form>
+    </div>
+
+    <div class="col-md-6">
+        <table class="table-condensed">
+            @foreach (var book in Model.AuthorBookList)
+            {
+                <tr>
+                    <h3>Books by @book.Author.AuthorName on Shelf Share</h3>
+                </tr>
+                <tr>
+
+                    <td>@book.Title</td>
+                    <td> <a asp-area="" asp-controller="MyShelf" asp-action="BookDetails/@book.Id" title="BookDetails">Details</a></td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>
