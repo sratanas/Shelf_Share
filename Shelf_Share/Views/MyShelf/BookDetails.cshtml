@@ -8,21 +8,31 @@
     <div class="col-md-4">
         <div><h4>@Model.Book.Title</h4></div>
         <div>By @Model.Book.Author.AuthorName</div>
-    <div>Genre: @Model.Book.Genre.GenreName</div>
-    <div>ISBN: @Model.Book.ISBN</div>
+        <div>Genre: @Model.Book.Genre.GenreName</div>
+        <div>ISBN: @Model.Book.ISBN</div>
+        <br />
+        <table class="table-condensed">
+            @foreach (var book in Model.GoodreadsList.Result.Books)
+            {
+                <tr>
+                    <td><img src="@book.Image_url" /></td>
+
+                </tr>
+
+            }
+        </table>
 
     </div>
     <div class="col-md-6">
         <table class="table-condensed">
             @foreach (var book in Model.GoodreadsList.Result.Books)
-              {
-            <tr>
-                <td><img src="@book.Image_url" /></td>
-                <td></td>
-                <td>@book.Description</td>
-            </tr>
+            {
 
-              }
+                <tr>
+                    <td>@Html.Raw(@book.Description)</td>
+                </tr>
+
+            }
         </table>
     </div>
 </div>

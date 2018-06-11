@@ -25,12 +25,11 @@
     </div>
 
     <div class="col-md-6">
+        <h3>Books by this author on Shelf Share:</h3>
         <table class="table-condensed">
             @foreach (var book in Model.AuthorBookList)
             {
-                <tr>
-                    <h3>Books by @book.Author.AuthorName on Shelf Share</h3>
-                </tr>
+
                 <tr>
 
                     <td>@book.Title</td>

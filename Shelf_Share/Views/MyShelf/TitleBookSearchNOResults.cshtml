@@ -28,35 +28,33 @@
 
 
     <div class="col-md-6">
-        <p>This book is not in Shelf Share, would you like to add it?</p>
 
-        <form method="post" asp-controller="MyShelf" asp-action="AddBook">
-            @*<input asp-for="@Model.GoodreadsList" type="hidden" />*@
-            @foreach (var book in Model.GoodreadsList.Result.Books)
-            {
-                <input asp-for="@book.Title" type="hidden" />
-                <input asp-for="@book.ISBN" type="hidden" />
-                <input asp-for="@book.Authors" type="hidden" />
-
-
-                @foreach (var author in book.Authors)
+        <div class="alert alert-warning">
+            <form method="post" asp-controller="MyShelf" asp-action="AddBook">
+                <strong>This book is not in Shelf Share, would you like to add it? &nbsp&nbsp&nbsp&nbsp&nbsp</strong>
+                @foreach (var book in Model.GoodreadsList.Result.Books)
                 {
-                  
+                    <input asp-for="@book.Title" type="hidden" />
+                    <input asp-for="@book.ISBN" type="hidden" />
+                    <input asp-for="@book.Authors" type="hidden" />
 
-                    @foreach (var a in author.Author)
+
+                    @foreach (var author in book.Authors)
+                    {
+
+                        @foreach (var a in author.Author)
                         {
 
                             <input asp-for="@book.Author.AuthorName" type="hidden" value="@a.Name" />
 
-
                         }
+                    }
+
                 }
 
-            }
-
-            <button type="submit" name="save" value="save">Add Book</button>
-        </form>
-
+                <button class="btn-success" type="submit" name="save" value="save">Add Book</button>
+            </form>
+        </div>
 
         <table class="table-condensed">
             @foreach (var book in Model.GoodreadsList.Result.Books)
