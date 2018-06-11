@@ -33,18 +33,22 @@ namespace Shelf_Share.Data
                         var book = new Book();
                         var author = new Author();
                         var genre = new Genre();
+                        var user = new ApplicationUser();
 
 
                         book.Id = Int32.Parse(reader["Id"].ToString());
                         book.Title = reader["Title"].ToString();
-                       
+
                         author.AuthorName = reader["AuthorName"].ToString();
 
                         genre.GenreName = reader["GenreName"].ToString();
 
+                        user.Id = reader["Id"].ToString();
+
 
                         book.Genre = genre;
                         book.Author = author;
+                        book.User = user;
                         userShelf.Add(book);
                     }
 
@@ -86,7 +90,7 @@ namespace Shelf_Share.Data
 
 
                         author.AuthorName = reader["AuthorName"].ToString();
-                        
+
 
                         genre.Id = Int32.Parse(reader["Id"].ToString());
                         genre.GenreName = reader["GenreName"].ToString();
@@ -262,6 +266,25 @@ namespace Shelf_Share.Data
 
 
                 }
+            }
+        }
+
+        public void AddBookToUserShelf(string userName, Book book)
+        {
+            using (SqlConnection connection = SqlConnect.GetSqlConnection())
+            {
+  
+                    string query = @"AddBookToUserShelf";
+
+                    SqlCommand command = new SqlCommand(query, connection);
+                    command.CommandType = System.Data.CommandType.StoredProcedure;
+                    command.Parameters.AddWithValue("@userName", userName);
+                    command.Parameters.AddWithValue("@bookId", book.Id);
+
+                    command.ExecuteNonQuery();
+                
+             
+
             }
         }
     }

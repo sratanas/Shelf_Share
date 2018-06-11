@@ -10,5 +10,6 @@ namespace Shelf_Share.Data
         List<Book> GetBooksByTitle(string title);
         Book GetBookById(int id);
         void AddBookToShelfShare(Book book);
+        void AddBookToUserShelf(string userName, Book book);
     }
 }

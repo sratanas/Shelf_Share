@@ -10,5 +10,6 @@ namespace Shelf_Share.Services
         IEnumerable<Book> GetBooksByTitle(string title);
         Book GetBookById(int id);
         void AddBookToShelfShare(Book book);
+        void AddBookToUserShelf(string userName, Book book);
     }
 }

@@ -128,6 +128,30 @@ namespace Shelf_Share.Controllers
             return Ok(result);
         }
 
+        //For adding to junction table
+        [HttpPost]
+        public IActionResult AddBookToUserShelf(BookDetailsViewModel model)
+        {
+
+            var userName = User.Identity.Name;
+            var book = new Book();
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    book = model.Book;
+                    _myShelfDataService.AddBookToUserShelf(userName, book);
+                }
+                catch
+                {
+
+                }
+            }
+
+
+
+            return View();
+        }
 
     }
 }

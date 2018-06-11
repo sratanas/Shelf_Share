@@ -24,5 +24,7 @@ namespace Shelf_Share.Services
 
         public void AddBookToShelfShare(Book book) => _myShelfRepository.AddBookToShelfShare(book);
 
+        public void AddBookToUserShelf(string userName, Book book) => _myShelfRepository.AddBookToUserShelf(userName, book);
+
     }
 }

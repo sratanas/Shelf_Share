@@ -22,6 +22,13 @@
             }
         </table>
 
+        <form method="post" asp-controller="MyShelf" asp-action="AddBookToUserShelf">
+
+                <input asp-for="@Model.Book.Id" type="hidden" />
+
+                <button class="btn-success" type="submit" name="save" value="save">Add to My Shelf</button>
+        </form>
+
     </div>
     <div class="col-md-6">
         <table class="table-condensed">

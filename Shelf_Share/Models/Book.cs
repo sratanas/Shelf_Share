@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Shelf_Share.Models
+﻿namespace Shelf_Share.Models
 {
     public class Book
     {
@@ -9,7 +7,7 @@ namespace Shelf_Share.Models
         public Author Author { get; set; }
         public Genre Genre { get; set; }
         public string ISBN { get; set; }
-        public List<Author> Authors { get; set; }
+        public ApplicationUser User { get; set; }
 
     }
 }

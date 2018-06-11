@@ -13,6 +13,7 @@ namespace Shelf_Share.Models.MyShelfViewModels
         public string SearchType { get; set; }
 
         [FromQuery]
+    
         public string SearchInput { get; set; }
 
         public IEnumerable<Book> AuthorBookList { get; set; }
