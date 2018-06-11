@@ -269,6 +269,7 @@ namespace Shelf_Share.Data
             }
         }
 
+
         public void AddBookToUserShelf(string userName, Book book)
         {
             using (SqlConnection connection = SqlConnect.GetSqlConnection())
@@ -282,10 +283,9 @@ namespace Shelf_Share.Data
                     command.Parameters.AddWithValue("@bookId", book.Id);
 
                     command.ExecuteNonQuery();
-                
-             
 
             }
         }
+
     }
 }

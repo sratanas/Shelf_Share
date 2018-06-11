@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Shelf_Share.Models;
 using Shelf_Share.Models.MyShelfViewModels;
 using Shelf_Share.Services;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -86,16 +87,34 @@ namespace Shelf_Share.Controllers
 
         }
 
+
         [HttpGet]
         [Route("/myshelf/bookdetails/{id}")]
         public IActionResult BookDetails(int id)
-
         {
+
             var model = new BookDetailsViewModel();
+            var user = User.Identity.Name;
+
             model.Book = _myShelfDataService.GetBookById(id);
             model.GoodreadsList = _goodreadsService.GetBookBasedOnTitleInput(model.Book.Title);
+
+            model.MyShelfBooks = _myShelfDataService.GetUserShelf(user);
+            var templist = new List<int>();
+            foreach (var book in model.MyShelfBooks)
+            {
+                templist.Add(book.Id);
+            };
+
+            if (templist.Contains(id))
+            {
+                model.Book.IsOnUserShelf = true;
+            }
+
             return View(model);
         }
+
+
 
         [HttpPost]
         public IActionResult AddBook(TitleBookSearchResultsViewModel model)
@@ -105,8 +124,6 @@ namespace Shelf_Share.Controllers
             //author = newBook.Author;
             if (ModelState.IsValid)
             {
-
-                
                 newBook.Title = model.Book.Title;
                 newBook.Author = model.Book.Author;
                 newBook.ISBN = model.Book.ISBN;
@@ -123,8 +140,6 @@ namespace Shelf_Share.Controllers
         {
             var result = await _goodreadsService.GetBookBasedOnTitleInput(searchInput);
 
-
-
             return Ok(result);
         }
 
@@ -137,21 +152,16 @@ namespace Shelf_Share.Controllers
             var book = new Book();
             if (ModelState.IsValid)
             {
-                try
-                {
                     book = model.Book;
-                    _myShelfDataService.AddBookToUserShelf(userName, book);
-                }
-                catch
-                {
-
-                }
+                    _myShelfDataService.AddBookToUserShelf(userName, book);           
             }
 
 
 
             return View();
         }
+
+
 
     }
 }

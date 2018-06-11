@@ -8,6 +8,7 @@
         public Genre Genre { get; set; }
         public string ISBN { get; set; }
         public ApplicationUser User { get; set; }
+        public bool IsOnUserShelf { get; set; }
 
     }
 }
