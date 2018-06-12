@@ -1,9 +1,9 @@
 ﻿// Write your JavaScript code.
 $(document).ready(function () {
-    console.log("Ready!")
+    console.log("Ready!");
 
 
-    $('#AddToShelfButton').on(Click)
+    $('#AddToShelfButton').on(Click);
 
 
 

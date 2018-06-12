@@ -11,5 +11,6 @@ namespace Shelf_Share.Services
         Book GetBookById(int id);
         void AddBookToShelfShare(Book book);
         void AddBookToUserShelf(string userName, Book book);
+        void RemoveBookFromUserShelf(string userName, Book book);
     }
 }

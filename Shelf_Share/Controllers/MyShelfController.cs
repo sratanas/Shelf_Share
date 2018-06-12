@@ -156,11 +156,25 @@ namespace Shelf_Share.Controllers
                     _myShelfDataService.AddBookToUserShelf(userName, book);           
             }
 
+            
 
-
-            return View();
+            return RedirectToAction("BookDetails", new { id = model.Book.Id});
         }
 
+        public IActionResult RemoveBookFromUserShelf(BookDetailsViewModel model)
+        {
+            var userName = User.Identity.Name;
+           
+            if (ModelState.IsValid)
+            {
+                
+                _myShelfDataService.RemoveBookFromUserShelf(userName, model.Book);
+            }
+
+
+
+            return RedirectToAction("BookDetails", new { id = model.Book.Id });
+        }
 
 
     }

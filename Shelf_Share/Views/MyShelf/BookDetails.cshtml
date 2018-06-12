@@ -25,17 +25,30 @@
 
         @if (Model.Book.IsOnUserShelf == false)
         {
-        <div>
-            <form method="post" asp-controller="MyShelf" asp-action="AddBookToUserShelf">
+            <div>
+                <form method="post" asp-controller="MyShelf" asp-action="AddBookToUserShelf">
 
-                <input asp-for="@Model.Book.Id" type="hidden" />
+                    <input asp-for="@Model.Book.Id" type="hidden" />
+                    <input asp-for="@Model.Book.Author.AuthorName" type="hidden" />
+                    <input asp-for="@Model.Book.ISBN" type="hidden" />
+                    <input asp-for="@Model.Book.Genre.GenreName" type="hidden" />
 
-                <button class="btn-success" type="submit" name="save" value="save" id="AddToShelfButton">Add to My Shelf</button>
-            </form>
-        </div>
+                    <button class="btn-success" type="submit" name="save" value="save" id="AddToShelfButton">Add to My Shelf</button>
+                </form>
+            </div>
         }
 
+        @if (Model.Book.IsOnUserShelf)
+        {
+            <div>
+                <form method="delete" asp-controller="MyShelf" asp-action="RemoveBookFromUserShelf">
 
+                    <input asp-for="@Model.Book.Id" type="hidden" />
+
+                    <button class="btn-warning" type="submit" name="save" value="save" >Remove from My Shelf</button>
+                </form>
+            </div>
+        }
     </div>
     <div class="col-md-6">
         <table class="table-condensed">

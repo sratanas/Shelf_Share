@@ -287,5 +287,22 @@ namespace Shelf_Share.Data
             }
         }
 
+        public void RemoveBookFromUserShelf(string userName, Book book)
+        {
+            using (SqlConnection connection = SqlConnect.GetSqlConnection())
+            {
+
+                string query = @"RemoveBookFromUserShelf";
+
+                SqlCommand command = new SqlCommand(query, connection);
+                command.CommandType = System.Data.CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@userName", userName);
+                command.Parameters.AddWithValue("@bookId", book.Id);
+
+                command.ExecuteNonQuery();
+
+            }
+        }
+
     }
 }
