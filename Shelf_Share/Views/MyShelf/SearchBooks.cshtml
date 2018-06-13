@@ -12,11 +12,11 @@
             <div>
                 Search by:<br />
                 Author   @Html.RadioButton("SearchType", "Author")
-                Title @Html.RadioButton("SearchType", "Title")
+                Title @Html.RadioButton("SearchType", "Title") 
             </div>
 
             <br />
-            <input type="text" value="" name="SearchInput" class="form-control" id="searchBox" aria-describedby="searchBox" placeholder="Enter Author or Title" required>
+            <input type="text" value="" name="searchInput" class="form-control" id="searchBox" aria-describedby="searchBox" placeholder="Enter Author or Title" required>
            
             <br />
             <button type="submit" class="btn btn-primary">Search</button>

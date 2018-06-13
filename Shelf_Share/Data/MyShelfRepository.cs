@@ -196,7 +196,6 @@ namespace Shelf_Share.Data
             }
         }
 
-        //need to get this Book model from goodreads information
         public void AddBookToShelfShare(Book book)
         {
             using (SqlConnection connection = SqlConnect.GetSqlConnection())
@@ -269,7 +268,6 @@ namespace Shelf_Share.Data
             }
         }
 
-
         public void AddBookToUserShelf(string userName, Book book)
         {
             using (SqlConnection connection = SqlConnect.GetSqlConnection())
@@ -304,5 +302,190 @@ namespace Shelf_Share.Data
             }
         }
 
+        //In progress
+        public ApplicationUser GetUser(string email)
+        {
+            using (SqlConnection connection = SqlConnect.GetSqlConnection())
+            {
+                var user = new ApplicationUser();
+
+                string query = @"GetUser";
+
+                SqlCommand command = new SqlCommand(query, connection);
+                command.CommandType = System.Data.CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@Email", email);
+
+                command.ExecuteNonQuery();
+                SqlDataReader reader = command.ExecuteReader();
+
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        user.Id = reader["Id"].ToString();
+                        user.UserName = reader["UserName"].ToString();
+                        user.Email = reader["Email"].ToString();
+
+
+                    }
+                }
+
+                return user;
+            }
+        }
+
+        public void CreatePendingFollowRequest(string followerUserName, string followeeUserName)
+        {
+            using (SqlConnection connection = SqlConnect.GetSqlConnection())
+            {
+
+                string query = @"CreatePendingFollowRequest";
+
+                SqlCommand command = new SqlCommand(query, connection);
+                command.CommandType = System.Data.CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@FollowerUserName", followerUserName);
+                command.Parameters.AddWithValue("@FolloweeUserName", followeeUserName);
+
+                command.ExecuteNonQuery();
+
+            }
+        }
+
+        public void ConfirmFollower(string followerUserName, string followeeUserName)
+        {
+            using (SqlConnection connection = SqlConnect.GetSqlConnection())
+            {
+                SqlTransaction tx = connection.BeginTransaction();
+
+                
+
+                string query = @"ConfirmFollower";
+
+                SqlCommand command = new SqlCommand(query, connection, tx);
+                command.CommandType = System.Data.CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@FollowerUserName", followerUserName);
+                command.Parameters.AddWithValue("@FolloweeUserName", followeeUserName);
+
+                command.ExecuteNonQuery();
+
+
+
+                string query2 = @"DeleteFromPendingFollows";
+
+                SqlCommand command2 = new SqlCommand(query2, connection, tx);
+                command2.CommandType = System.Data.CommandType.StoredProcedure;
+                command2.Parameters.AddWithValue("@FollowerUserName", followerUserName);
+                command2.Parameters.AddWithValue("@FolloweeUserName", followeeUserName);
+
+                command2.ExecuteNonQuery();
+
+
+                tx.Commit();
+            }
+        }
+
+       
+
+        public List<ApplicationUser> GetPendingFollowers(string userName)
+        {
+            using (SqlConnection connection = SqlConnect.GetSqlConnection())
+            {
+
+                List<ApplicationUser> pendingFollowers = new List<ApplicationUser>();
+
+                string query = @"GetFollowRequests";
+
+                SqlCommand command = new SqlCommand(query, connection);
+                command.CommandType = System.Data.CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@FolloweeUserName", userName);
+
+                command.ExecuteNonQuery();
+                SqlDataReader reader = command.ExecuteReader();
+
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        var user = new ApplicationUser();
+
+                        user.Id = reader["Id"].ToString();
+                        user.UserName = reader["UserName"].ToString();
+                        user.Email = reader["Email"].ToString();
+
+                        pendingFollowers.Add(user);
+                    }
+                }
+
+                return pendingFollowers;
+            }
+        }
+
+        public List<ApplicationUser> ListFollowsRequestedByUser(string userName)
+        {
+            using (SqlConnection connection = SqlConnect.GetSqlConnection())
+            {
+
+                List<ApplicationUser> pendingFollowers = new List<ApplicationUser>();
+
+                string query = @"ListFollowsRequestedByUser";
+
+                SqlCommand command = new SqlCommand(query, connection);
+                command.CommandType = System.Data.CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@UserName", userName);
+
+                command.ExecuteNonQuery();
+                SqlDataReader reader = command.ExecuteReader();
+
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        var user = new ApplicationUser();
+
+                        user.Id = reader["Id"].ToString();
+                        user.UserName = reader["UserName"].ToString();
+                        user.Email = reader["Email"].ToString();
+
+                        pendingFollowers.Add(user);
+                    }
+                }
+
+                return pendingFollowers;
+            }
+        }
+
+        public List<ApplicationUser> GetUsersIFollow(string userName)
+        {
+            using (SqlConnection connection = SqlConnect.GetSqlConnection())
+            {
+
+                List<ApplicationUser> peopleIFollow = new List<ApplicationUser>();
+
+                string query = @"GetUsersIFollow";
+
+                SqlCommand command = new SqlCommand(query, connection);
+                command.CommandType = System.Data.CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@FollowerUserName", userName);
+
+                command.ExecuteNonQuery();
+                SqlDataReader reader = command.ExecuteReader();
+
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        var user = new ApplicationUser();
+
+                        user.Id = reader["Id"].ToString();
+                        user.UserName = reader["UserName"].ToString();
+                        user.Email= reader["Email"].ToString();
+
+                        peopleIFollow.Add(user);
+                    }
+                }
+
+                return peopleIFollow;
+            }
+        }
     }
 }

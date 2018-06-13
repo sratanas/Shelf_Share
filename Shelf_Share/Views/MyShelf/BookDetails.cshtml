@@ -21,7 +21,7 @@
 
             }
         </table>
-
+        <br />
 
         @if (Model.Book.IsOnUserShelf == false)
         {
@@ -45,7 +45,7 @@
 
                     <input asp-for="@Model.Book.Id" type="hidden" />
 
-                    <button class="btn-warning" type="submit" name="save" value="save" >Remove from My Shelf</button>
+                    <button class="btn btn-warning" type="submit" name="save" value="save" >Remove from My Shelf</button>
                 </form>
             </div>
         }

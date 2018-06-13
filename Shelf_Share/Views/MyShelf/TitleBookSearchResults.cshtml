@@ -25,12 +25,12 @@
     <div class="col-md-6">
         <table class="table-condensed">
             @foreach (var book in Model.BooksByTitle)
-        {
-            <tr>
-                <td><strong>@book.Title</strong><br /> by @book.Author.AuthorName</td>
-                <td> <a asp-area="" asp-controller="MyShelf" asp-action="BookDetails/@book.Id" title="BookDetails">Details</a></td>
-            </tr>
-    }
+            {
+                <tr>
+                    <td><strong>@book.Title</strong><br /> by @book.Author.AuthorName</td>
+                    <td> <a asp-area="" asp-controller="MyShelf" asp-action="BookDetails/@book.Id" title="BookDetails">Details</a></td>
+                </tr>
+            }
         </table>
 
 

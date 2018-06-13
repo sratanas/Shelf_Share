@@ -12,5 +12,11 @@ namespace Shelf_Share.Data
         void AddBookToShelfShare(Book book);
         void AddBookToUserShelf(string userName, Book book);
         void RemoveBookFromUserShelf(string userName, Book book);
+        ApplicationUser GetUser(string email);
+        void CreatePendingFollowRequest(string followerUserName, string followeeUserName);
+        void ConfirmFollower(string followerUserName, string followeeUserName);
+        List<ApplicationUser> GetUsersIFollow(string userName);
+        List<ApplicationUser> GetPendingFollowers(string userName);
+        List<ApplicationUser> ListFollowsRequestedByUser(string userName);
     }
 }

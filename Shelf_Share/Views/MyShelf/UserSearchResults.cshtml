@@ -1,0 +1,67 @@
+﻿@model Shelf_Share.Models.MyShelfViewModels.UserSearchResultsViewModel
+@{
+    ViewData["Title"] = "UserSearchResults";
+}
+
+<h2>SearchResults</h2>
+
+
+<div class="row">
+    <div class="col-md-4">
+        <form method="get" action="@Url.Action("UserSearchResults", "MyShelf")">
+            <br />
+            <input type="text" value="" name="email" class="form-control" id="searchBox" aria-describedby="searchBox" placeholder="Enter Email or Username" required>
+
+            <br />
+            <button type="submit" class="btn btn-primary">Search</button>
+
+        </form>
+    </div>
+    <div class="col-md-8">
+        <table class="table-condensed">
+            <tr>
+                <td><strong>@Model.AppUser.UserName</strong><br /> @Model.AppUser.Email</td>
+            </tr>
+            <tr>
+                <td>
+                    @if (Model.PendingFollowing)
+                    {
+                        <div>
+                            <p style="color:orangered;"> <strong>* Request to follow is pending.</strong></p>
+                        </div>
+                    }
+                    @if (Model.IsFollowing)
+                    {
+                        <div>
+                            <form method="delete" asp-controller="MyShelf" asp-action="UnFollowUser">
+
+                                <input asp-for="@Model.AppUser.UserName" type="hidden" />
+                                <input asp-for="@Model.AppUser.Id" type="hidden" />
+
+                                <button class="btn-warning" type="submit" name="save" value="save">Unfollow</button>
+                            </form>
+                        </div>
+                    }
+                    @if (Model.IsFollowing == false && Model.PendingFollowing == false)
+                    {
+                        <div>
+                            <form method="post" asp-controller="MyShelf" asp-action="RequestToFollow">
+
+                                <input asp-for="@Model.AppUser.Id" type="hidden" />
+                                <input asp-for="@Model.AppUser.UserName" type="hidden" />
+                                <input asp-for="@Model.AppUser.Email" type="hidden" />
+
+                                <button class="btn-primary" type="submit" name="save" value="save">Request to Follow</button>
+                            </form>
+                        </div>
+                    }
+
+
+                </td>
+            </tr>
+
+        </table>
+    </div>
+</div>
+
+

@@ -27,5 +27,17 @@ namespace Shelf_Share.Services
         public void AddBookToUserShelf(string userName, Book book) => _myShelfRepository.AddBookToUserShelf(userName, book);
 
         public void RemoveBookFromUserShelf(string userName, Book book) => _myShelfRepository.RemoveBookFromUserShelf(userName, book);
+
+        public ApplicationUser GetUser(string email) => _myShelfRepository.GetUser(email);
+
+        public void CreatePendingFollowRequest(string followerUserName, string followeeUserName) => _myShelfRepository.CreatePendingFollowRequest(followerUserName, followeeUserName);
+
+        public void ConfirmFollower(string followerUserName, string followeeUserName) => _myShelfRepository.ConfirmFollower(followerUserName, followeeUserName);
+
+        public List<ApplicationUser> GetUsersIFollow(string userName) => _myShelfRepository.GetUsersIFollow(userName);
+
+        public List<ApplicationUser> GetPendingFollowers(string userName) => _myShelfRepository.GetPendingFollowers(userName);
+
+        public List<ApplicationUser> ListFollowsRequestedByUser(string userName) => _myShelfRepository.ListFollowsRequestedByUser(userName);
     }
 }

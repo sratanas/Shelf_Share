@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Shelf_Share.Models.MyShelfViewModels
 {
@@ -10,6 +7,12 @@ namespace Shelf_Share.Models.MyShelfViewModels
         public string UserName { get; set; }
 
         public IEnumerable<Book> MyShelfBooks { get; set; }
+
+        public IEnumerable<ApplicationUser> PeopleIFollow { get; set; }
+
+        public IEnumerable<ApplicationUser> PendingFollowRequests { get; set; }
+
+        public ApplicationUser Person { get; set; }
 
     }
 }

@@ -40,7 +40,8 @@ namespace Shelf_Share.Controllers
             
             var model = new IndexMyShelfViewModel();
             model.MyShelfBooks = _myShelfDataService.GetUserShelf(user);
-            
+            model.PeopleIFollow = _myShelfDataService.GetUsersIFollow(user);
+            model.PendingFollowRequests = _myShelfDataService.GetPendingFollowers(user);
 
             return View(model);
         }
@@ -97,6 +98,7 @@ namespace Shelf_Share.Controllers
             var user = User.Identity.Name;
 
             model.Book = _myShelfDataService.GetBookById(id);
+
             model.GoodreadsList = _goodreadsService.GetBookBasedOnTitleInput(model.Book.Title);
 
             model.MyShelfBooks = _myShelfDataService.GetUserShelf(user);
@@ -131,7 +133,7 @@ namespace Shelf_Share.Controllers
 
             _myShelfDataService.AddBookToShelfShare(newBook);
             //replace this view with confirmation screen
-            return View(RedirectToAction("Index"));
+            return RedirectToAction("AuthorBookSearchResults", new { searchType="Title", searchInput = model.Book.Title });
         }
 
         [HttpGet]
@@ -166,16 +168,85 @@ namespace Shelf_Share.Controllers
             var userName = User.Identity.Name;
            
             if (ModelState.IsValid)
-            {
-                
+            {           
                 _myShelfDataService.RemoveBookFromUserShelf(userName, model.Book);
             }
-
-
 
             return RedirectToAction("BookDetails", new { id = model.Book.Id });
         }
 
 
+        public IActionResult SearchUsers()
+        {
+            return View();
+        }
+
+
+        [HttpGet]
+        public IActionResult UserSearchResults(string email)
+        {
+            var user = new ApplicationUser();
+            var model = new UserSearchResultsViewModel();
+            
+            model.AppUser = _myShelfDataService.GetUser(email);
+            model.PeopleIFollow = _myShelfDataService.GetUsersIFollow(User.Identity.Name);
+            model.PeoplePendingFollow = _myShelfDataService.ListFollowsRequestedByUser(User.Identity.Name);
+
+            var tempList = new List<string>(); //list of Ids of people I follow
+
+            foreach (var person in model.PeopleIFollow)
+            {
+                tempList.Add(person.Id);
+            }
+
+            var tempList2 = new List<string>(); //list of Ids of people I requested to follow
+
+            foreach (var person in model.PeoplePendingFollow)
+            {
+                tempList2.Add(person.Id);
+            }
+
+            if (tempList.Contains(model.AppUser.Id))
+            {
+                model.IsFollowing = true;
+            }
+            else if (tempList2.Contains(model.AppUser.Id))
+            {
+                model.PendingFollowing = true;
+            }
+            return View("UserSearchResults", model);
+        }
+
+
+        //Need to create users and followers junction table, temp junction table for pending requests
+        public IActionResult RequestToFollow(UserSearchResultsViewModel model)
+        {
+            var follower = User.Identity.Name;
+            var followee = new ApplicationUser();
+
+            if (ModelState.IsValid)
+            {
+                followee.UserName = model.AppUser.UserName;
+                _myShelfDataService.CreatePendingFollowRequest(follower, followee.UserName);
+                model.PendingFollowing = true;
+            }
+
+            //need to figure out how to redirect to 
+            return RedirectToAction("UserSearchResults", new { email = model.AppUser.Email });
+        }
+
+        //create this action 
+        public IActionResult ConfirmFollower(IndexMyShelfViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var followee = User.Identity.Name;
+
+                _myShelfDataService.ConfirmFollower(model.Person.UserName, followee);
+                
+            }
+
+            return RedirectToAction("Index");
+        }
     }
 }

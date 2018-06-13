@@ -11,8 +11,16 @@
             <li>
                 <a asp-area="" asp-controller="MyShelf" asp-action="Index" title="MyShelf">My Shelf</a>
             </li>
-            <li>
-                <a asp-area="" asp-controller="MyShelf" asp-action="SearchBooks" title="SearchBooks">Search For A Book</a>
+
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Search
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink" id="searchDropdown">
+                    <a asp-area="" class="dropdown-item" asp-controller="MyShelf" asp-action="SearchBooks" title="SearchBooks">For A Book</a><br />
+                    <a asp-area="" class="dropdown-item" asp-controller="MyShelf" asp-action="SearchUsers" title="SearchUsers">For A Friend</a>
+
+                </div>
             </li>
             <li>
                 <a asp-area="" asp-controller="Manage" asp-action="Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>
