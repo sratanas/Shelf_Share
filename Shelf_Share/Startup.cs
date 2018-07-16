@@ -19,13 +19,20 @@ namespace Shelf_Share
 
         public IConfiguration Configuration { get; }
         private string _goodreadsApiKey = null;
+        private string _connection = null;
+
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
+            _goodreadsApiKey = Configuration["GoodreadsApiKey"];
+            _connection = Configuration["TheDefaultConnection"];
+
+            services.AddDbContext<ApplicationDbContext>(options =>
+                  options.UseSqlServer(_connection));
+            //options.UseSqlServer(Configuration.GetConnectionString("TheDefaultConnection")));
+                
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
@@ -37,7 +44,8 @@ namespace Shelf_Share
             services.AddSingleton<IGoodreadsRepository, GoodreadsRepository>();
             services.AddSingleton<IGoodreadsService, GoodreadsService>();
 
-            _goodreadsApiKey = Configuration["GoodreadsApiKey"];
+
+
 
             services.AddMvc();
         }
