@@ -3,6 +3,10 @@
 Shelf Share is am ASP.NET Core web app for users to share the books they own with other registered users. The application stores book information in a database with information pulled from the Goodreads API. Registered users are able to look up books in the Shelf Share database, add new books to the database via information from the Goodreads API, add and delete books from their own shelf, and request to follow other users.
 
 **[LIVE DEMO](https://shelfshareapp.azurewebsites.net)**
+
+For demo login:  
+username: shelfsharetest@test.com  
+  password: ShelfShareTest1!
 ### Built with
 - ASP.NET Core 2.1
 - Microsoft Sql Server
