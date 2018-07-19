@@ -39,5 +39,7 @@ namespace Shelf_Share.Services
         public List<ApplicationUser> GetPendingFollowers(string userName) => _myShelfRepository.GetPendingFollowers(userName);
 
         public List<ApplicationUser> ListFollowsRequestedByUser(string userName) => _myShelfRepository.ListFollowsRequestedByUser(userName);
+
+        public void UploadProfilePicture(byte[] picture, string userName) => _myShelfRepository.UploadProfilePicture(picture, userName);
     }
 }

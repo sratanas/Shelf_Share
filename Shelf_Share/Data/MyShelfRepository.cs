@@ -1,4 +1,5 @@
-﻿using Shelf_Share.Models;
+﻿using Microsoft.Extensions.Configuration;
+using Shelf_Share.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -8,9 +9,28 @@ namespace Shelf_Share.Data
     public class MyShelfRepository : IMyShelfRepository
     {
 
+        private readonly IConfiguration _config;
+        public  MyShelfRepository(IConfiguration configuration)
+        {
+            _config = configuration;
+        }
+
+        public SqlConnection GetSqlConnection()
+        {
+
+            string ConnectionString = _config["TheDefaultConnection"];
+            SqlConnection conn = new SqlConnection(ConnectionString);
+            conn.Open();
+
+
+
+            return conn;
+        }
+
         public List<Book> GetUserShelf(string userName)
         {
-            using (SqlConnection connection = SqlConnect.GetSqlConnection())
+            
+            using (SqlConnection connection = GetSqlConnection())
             {
 
                 List<Book> userShelf = new List<Book>();
@@ -62,7 +82,7 @@ namespace Shelf_Share.Data
 
         public List<Book> GetBooksByAuthor(string authorName)
         {
-            using (SqlConnection connection = SqlConnect.GetSqlConnection())
+            using (SqlConnection connection = GetSqlConnection())
             {
                 List<Book> authorBookList = new List<Book>();
 
@@ -108,7 +128,7 @@ namespace Shelf_Share.Data
 
         public List<Book> GetBooksByTitle(string title)
         {
-            using (SqlConnection connection = SqlConnect.GetSqlConnection())
+            using (SqlConnection connection = GetSqlConnection())
 
             {
                 List<Book> bookList = new List<Book>();
@@ -153,7 +173,7 @@ namespace Shelf_Share.Data
 
         public Book GetBookById(int id)
         {
-            using (SqlConnection connection = SqlConnect.GetSqlConnection())
+            using (SqlConnection connection = GetSqlConnection())
 
             {
                 var book = new Book();
@@ -198,7 +218,7 @@ namespace Shelf_Share.Data
 
         public void AddBookToShelfShare(Book book)
         {
-            using (SqlConnection connection = SqlConnect.GetSqlConnection())
+            using (SqlConnection connection = GetSqlConnection())
             {
                 //var book = new Book();
 
@@ -270,7 +290,7 @@ namespace Shelf_Share.Data
 
         public void AddBookToUserShelf(string userName, Book book)
         {
-            using (SqlConnection connection = SqlConnect.GetSqlConnection())
+            using (SqlConnection connection = GetSqlConnection())
             {
   
                     string query = @"AddBookToUserShelf";
@@ -287,7 +307,7 @@ namespace Shelf_Share.Data
 
         public void RemoveBookFromUserShelf(string userName, Book book)
         {
-            using (SqlConnection connection = SqlConnect.GetSqlConnection())
+            using (SqlConnection connection =  GetSqlConnection())
             {
 
                 string query = @"RemoveBookFromUserShelf";
@@ -305,7 +325,7 @@ namespace Shelf_Share.Data
         //In progress
         public ApplicationUser GetUser(string email)
         {
-            using (SqlConnection connection = SqlConnect.GetSqlConnection())
+            using (SqlConnection connection =  GetSqlConnection())
             {
                 var user = new ApplicationUser();
 
@@ -336,7 +356,7 @@ namespace Shelf_Share.Data
 
         public void CreatePendingFollowRequest(string followerUserName, string followeeUserName)
         {
-            using (SqlConnection connection = SqlConnect.GetSqlConnection())
+            using (SqlConnection connection = GetSqlConnection())
             {
 
                 string query = @"CreatePendingFollowRequest";
@@ -353,7 +373,7 @@ namespace Shelf_Share.Data
 
         public void ConfirmFollower(string followerUserName, string followeeUserName)
         {
-            using (SqlConnection connection = SqlConnect.GetSqlConnection())
+            using (SqlConnection connection = GetSqlConnection())
             {
                 SqlTransaction tx = connection.BeginTransaction();
 
@@ -388,7 +408,7 @@ namespace Shelf_Share.Data
 
         public List<ApplicationUser> GetPendingFollowers(string userName)
         {
-            using (SqlConnection connection = SqlConnect.GetSqlConnection())
+            using (SqlConnection connection = GetSqlConnection())
             {
 
                 List<ApplicationUser> pendingFollowers = new List<ApplicationUser>();
@@ -422,7 +442,7 @@ namespace Shelf_Share.Data
 
         public List<ApplicationUser> ListFollowsRequestedByUser(string userName)
         {
-            using (SqlConnection connection = SqlConnect.GetSqlConnection())
+            using (SqlConnection connection =  GetSqlConnection())
             {
 
                 List<ApplicationUser> pendingFollowers = new List<ApplicationUser>();
@@ -456,7 +476,7 @@ namespace Shelf_Share.Data
 
         public List<ApplicationUser> GetUsersIFollow(string userName)
         {
-            using (SqlConnection connection = SqlConnect.GetSqlConnection())
+            using (SqlConnection connection = GetSqlConnection())
             {
 
                 List<ApplicationUser> peopleIFollow = new List<ApplicationUser>();
@@ -485,6 +505,23 @@ namespace Shelf_Share.Data
                 }
 
                 return peopleIFollow;
+            }
+        }
+
+        public void UploadProfilePicture(byte[] picture, string userName)
+        {
+            using (SqlConnection connection = GetSqlConnection())
+            {
+
+                string query = @"UploadProfilePhoto";
+
+                SqlCommand command = new SqlCommand(query, connection);
+                command.CommandType = System.Data.CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@ProfilePicture", picture);
+                command.Parameters.AddWithValue("@UserName", userName);
+
+                command.ExecuteNonQuery();
+
             }
         }
     }

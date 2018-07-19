@@ -25,6 +25,7 @@ namespace Shelf_Share.Controllers
         private readonly IEmailSender _emailSender;
         private readonly ILogger _logger;
         private readonly UrlEncoder _urlEncoder;
+        private readonly IMyShelfDataService _myShelfDataService;
 
         private const string AuthenticatorUriFormat = "otpauth://totp/{0}:{1}?secret={2}&issuer={0}&digits=6";
         private const string RecoveryCodesKey = nameof(RecoveryCodesKey);
@@ -34,13 +35,15 @@ namespace Shelf_Share.Controllers
           SignInManager<ApplicationUser> signInManager,
           IEmailSender emailSender,
           ILogger<ManageController> logger,
-          UrlEncoder urlEncoder)
+          UrlEncoder urlEncoder,
+          IMyShelfDataService myShelfDataService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
             _logger = logger;
             _urlEncoder = urlEncoder;
+            _myShelfDataService = myShelfDataService;
         }
 
         [TempData]
@@ -103,6 +106,17 @@ namespace Shelf_Share.Controllers
             }
 
             StatusMessage = "Your profile has been updated";
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        public IActionResult UploadProfilePicture(IndexViewModel model)
+        {
+            var userName = User.Identity.Name;
+           
+            _myShelfDataService.UploadProfilePicture(model.ProfilePicture, userName);
+            StatusMessage = "Profile picture has been updated";
+
             return RedirectToAction(nameof(Index));
         }
 

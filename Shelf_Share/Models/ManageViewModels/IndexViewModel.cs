@@ -21,5 +21,8 @@ namespace Shelf_Share.Models.ManageViewModels
         public string PhoneNumber { get; set; }
 
         public string StatusMessage { get; set; }
+
+        [Display(Name = "Profile Picture")]
+        public byte[] ProfilePicture { get; set; }
     }
 }

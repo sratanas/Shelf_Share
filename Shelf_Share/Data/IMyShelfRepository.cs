@@ -18,5 +18,7 @@ namespace Shelf_Share.Data
         List<ApplicationUser> GetUsersIFollow(string userName);
         List<ApplicationUser> GetPendingFollowers(string userName);
         List<ApplicationUser> ListFollowsRequestedByUser(string userName);
+        void UploadProfilePicture(byte[] picture, string userName);
+
     }
 }

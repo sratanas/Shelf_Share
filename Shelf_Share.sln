@@ -3,14 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27428.2037
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shelf_Share", "Shelf_Share\Shelf_Share.csproj", "{F79CEDC5-7DC1-4FC0-A27D-4FCD039B4F0B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shelf_Share", "Shelf_Share\Shelf_Share.csproj", "{F79CEDC5-7DC1-4FC0-A27D-4FCD039B4F0B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionItems", "{5FEC8F3D-FA42-4250-97FA-9C7E4A15FC57}"
 	ProjectSection(SolutionItems) = preProject
 		.env = .env
 		.gitignore = .gitignore
 		CreateTables.sql = CreateTables.sql
+		Shelf_Share\Dockerfile = Shelf_Share\Dockerfile
+		global.json = global.json
 		InsertMockData.sql = InsertMockData.sql
+		README.md = README.md
 		StoredProcedures.txt = StoredProcedures.txt
 	EndProjectSection
 EndProject
